@@ -19,7 +19,7 @@ public class MyCalculatorTest
         var mock = new Mock<ICalculator>();
 
         // Act
-        _sut.Start();
+        mock.Object.Start();
 
         // Assert
         mock.Verify(x => x.Start(), Times.Once);
