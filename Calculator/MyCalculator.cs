@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Calculator
 {
-	public class MyCalculator
+	public class MyCalculator : ICalculator
 	{
 		public MyCalculator()
 		{
@@ -15,10 +15,11 @@ namespace Calculator
             {
                 {"+","[+] sum" },
                 {"/","[/] divide" },
+                {"ESC", "[ESC] exit" }
             };
 
-
-            while (true)
+            string operation = string.Empty;
+            do
             {
                 try
                 {
@@ -28,7 +29,7 @@ namespace Calculator
                     Console.WriteLine();
                     Console.WriteLine("Insert the operation");
                     Console.WriteLine($"Allowed opearations are: {string.Join(", ", operations.Values)}");
-                    string operation = Console.ReadLine();
+                    operation = Console.ReadLine();
                     if (!operations.TryGetValue(operation, out string operationValue))
                     {
                         Console.WriteLine("Wrong operation, Calculator restart ...");
@@ -72,7 +73,7 @@ namespace Calculator
                     Console.WriteLine($"Generic error ...  {e.StackTrace}");
                     throw;
                 }
-            }
+            } while (operation != operations["ESC"]);
 
         }
     }
