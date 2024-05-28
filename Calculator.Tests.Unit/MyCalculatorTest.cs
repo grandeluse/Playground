@@ -1,27 +1,37 @@
 ﻿using Moq;
 using FluentAssertions;
+using Calculator.Services;
 
 namespace Calculator.UnitTests;
 
 public class MyCalculatorTest
 {
     private readonly ICalculator _sut;
+    private readonly Mock<IInputOutputService> _consoleServiceMock = new Mock<IInputOutputService>(MockBehavior.Strict);
 
     public MyCalculatorTest()
     {
-        _sut = new MyCalculator();
+        _sut = new MyCalculator(_consoleServiceMock.Object);
     }
 
     [Fact]
-    public void Start_ShouldCalled_WhenCalculatorStart()
+    public void Start_ShouldPrintPresentationMessage_WhenCalculatorStart()
     {
         // Arrange
-        var mock = new Mock<ICalculator>();
+
+        var operations = new Dictionary<string,string>
+            {
+                {"+","[+] sum" },
+                {"/","[/] division" },
+                {"ESC", "[ESC] exit" }
+            };
+
+        _consoleServiceMock.Setup(x => x.PrintPresentation(It.IsAny<Dictionary<string, string>>()));
 
         // Act
-        mock.Object.Start();
+        _sut.Start();
 
         // Assert
-        mock.Verify(x => x.Start(), Times.Once);
+        _consoleServiceMock.Verify(x => x.PrintPresentation(operations), Times.AtLeastOnce);
     }
 }
