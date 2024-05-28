@@ -1,79 +1,85 @@
 ﻿
-namespace Calculator
+using Calculator.Services;
+
+namespace Calculator;
+
+public class MyCalculator(IConsoleManager console) : ICalculator
 {
-	public class MyCalculator : ICalculator
-	{
-        private readonly Dictionary<string, string> _operations= new()
+    private readonly IConsoleManager _console = console ?? throw new ArgumentNullException(nameof(console));
+
+    private readonly Dictionary<string, string> _operations= new()
+    {
+        {"+","[+] sum" },
+        {"/","[/] division" },
+        {"ESC", "[ESC] exit" }
+    };
+
+    public void Start()
+    {
+        string operation = string.Empty;
+        do
         {
-            {"+","[+] sum" },
-            {"/","[/] division" },
-            {"ESC", "[ESC] exit" }
-        };
-        
-        public void Start()
-		{
-            string operation = string.Empty;
-            do
+            try
             {
-                try
+                PrintPresentation();
+
+                operation = _console.ReadLine();
+                if (!_operations.TryGetValue(operation, out string operationValue))
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Welcome to Calculator");
-
-                    Console.WriteLine();
-                    Console.WriteLine("Insert the operation");
-                    Console.WriteLine($"Allowed opearations are: {string.Join(", ", _operations.Values)}");
-
-                    operation = Console.ReadLine();
-                    if (!_operations.TryGetValue(operation, out string operationValue))
-                    {
-                        Console.WriteLine("Wrong operation, Calculator restart ...");
-                        continue;
-                    }
-                    Console.WriteLine($"You choose: {operationValue}");
-
-                    if (operation.Equals("ESC"))
-                        return;
-
-                    Console.WriteLine();
-                    Console.WriteLine("Type the first operator");
-                    if (!int.TryParse(Console.ReadLine(), out int firstOperator))
-                    {
-                        Console.WriteLine("Wrong operator, Calculator restart ...");
-                        continue;
-                    }
-                    Console.WriteLine($"First operator: {firstOperator}");
-
-                    Console.WriteLine();
-                    Console.WriteLine("Type the second operator");
-                    if (!int.TryParse(Console.ReadLine(), out int secondOperator))
-                    {
-                        Console.WriteLine("Wrong operator, Calculator restart ...");
-                        continue;
-                    }
-                    Console.WriteLine($"Second operator: {secondOperator}");
-
-                    int result = operation switch
-                    {
-                        "+" => firstOperator + secondOperator,
-                        "/" => firstOperator / secondOperator,
-                        _ => throw new InvalidOperationException("Operation not allowed")
-                    };
-                    Console.WriteLine();
-                    Console.WriteLine($"The result of : {firstOperator} {operation} {secondOperator} is {result}");
+                    _console.WriteLine("Wrong operation, Calculator restart ...");
+                    continue;
                 }
-                catch (DivideByZeroException e)
+                _console.WriteLine($"You choose: {operationValue}");
+
+                if (operation.Equals("ESC"))
+                    return;
+
+                _console.WriteLine();
+                _console.WriteLine("Type the first operator");
+                if (!int.TryParse(Console.ReadLine(), out int firstOperator))
                 {
-                    Console.WriteLine($"The second operator must not be 0 ... {e.StackTrace}");
+                    _console.WriteLine("Wrong operator, Calculator restart ...");
+                    continue;
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Generic error ...  {e.StackTrace}");
-                    throw;
-                }
-            } while (operation != _operations["ESC"]);
+                _console.WriteLine($"First operator: {firstOperator}");
 
-        }
+                _console.WriteLine();
+                _console.WriteLine("Type the second operator");
+                if (!int.TryParse(Console.ReadLine(), out int secondOperator))
+                {
+                    _console.WriteLine("Wrong operator, Calculator restart ...");
+                    continue;
+                }
+                _console.WriteLine($"Second operator: {secondOperator}");
+
+                int result = operation switch
+                {
+                    "+" => firstOperator + secondOperator,
+                    "/" => firstOperator / secondOperator,
+                    _ => throw new InvalidOperationException("Operation not allowed")
+                };
+                _console.WriteLine();
+                _console.WriteLine($"The result of : {firstOperator} {operation} {secondOperator} is {result}");
+            }
+            catch (DivideByZeroException e)
+            {
+                _console.WriteLine($"The second operator must not be 0 ... {e.StackTrace}");
+            }
+            catch (Exception e)
+            {
+                _console.WriteLine($"Generic error ...  {e.StackTrace}");
+                throw;
+            }
+        } while (operation != _operations["ESC"]);
+
+    }
+    private void PrintPresentation()
+    {
+        _console.WriteLine();
+        _console.WriteLine("Welcome to Calculator");
+
+        _console.WriteLine();
+        _console.WriteLine("Insert the operation");
+        _console.WriteLine($"Allowed operations are: {string.Join(", ", _operations.Values)}");
     }
 }
-

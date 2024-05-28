@@ -1,5 +1,7 @@
 ﻿using Calculator;
+using Calculator.Services;
 
-var calculator = new MyCalculator();
+var console = new ConsoleManager();
+var calculator = new MyCalculator(console);
 
 calculator.Start();
