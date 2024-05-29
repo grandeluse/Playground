@@ -33,7 +33,7 @@ public class MyCalculatorTest
     }
     
     [Fact]
-    public void Start_ShouldPrintPresentationMessage_WhenCalculatorStart()
+    public void PrintPresentation_ShouldPrintCorrectMessages_WhenCalculatorCalled()
     {
         // Arrange
 
@@ -41,10 +41,102 @@ public class MyCalculatorTest
         sut.PrintPresentation();
 
         // Assert
-        consoleManagerMock.Verify(x=>x.WriteLine(),Times.Exactly(2));
-        consoleManagerMock.Verify(x=>x.WriteLine("Welcome to Calculator"),Times.Once);
-        consoleManagerMock.Verify(x=>x.WriteLine("Insert the operation"),Times.Once);
-        consoleManagerMock.Verify(x=>x.WriteLine($"Allowed operations are: {string.Join(", ", _operations.Values)}"),Times.Once);
+        consoleManagerMock.Verify(x=>x.WriteLine(), Times.Exactly(2));
+        consoleManagerMock.Verify(x=>x.WriteLine("Welcome to Calculator"), Times.Once);
+        consoleManagerMock.Verify(x=>x.WriteLine("Insert the operation"), Times.Once);
+        consoleManagerMock.Verify(x=>x.WriteLine($"Allowed operations are: {string.Join(", ", _operations.Values)}"), Times.Once);
     }
+
+    [Fact]
+    public void TryReadOperation_ShouldRestartCalculator_WhenOperationIsNull()
+    {
+        // Arrange
+        consoleManagerMock.Setup(x => x.ReadLine())
+            .Returns<string?>(null!);
+
+        // Act
+        var outcome = sut.TryReadOperation();
+
+        // Assert
+        outcome.result.Should().BeFalse();
+        outcome.operation.Should().BeNull();
+        outcome.operationValue.Should().BeNull();
+        
+        consoleManagerMock.Verify(x=>x.WriteLine("Wrong operation, Calculator restart ..."), Times.Once);
+    }
+
+    [Fact]
+    public void TryReadOperation_ShouldRestartCalculator_WhenOperationIsNotAllowed()
+    {
+        // Arrange
+        consoleManagerMock.Setup(x => x.ReadLine())
+            .Returns("aaa");
+
+        // Act
+        var outcome = sut.TryReadOperation();
+
+        // Assert
+        outcome.result.Should().BeFalse();
+        outcome.operation.Should().BeNull();
+        outcome.operationValue.Should().BeNull();
+        
+        consoleManagerMock.Verify(x=>x.WriteLine("Wrong operation, Calculator restart ..."), Times.Once);
+    }
+    
+    [Fact]
+    public void TryReadOperation_ShouldReturnSumEntry_WhenOperationIsSum()
+    {
+        // Arrange
+        consoleManagerMock.Setup(x => x.ReadLine())
+            .Returns("+");
+
+        // Act
+        var outcome = sut.TryReadOperation();
+
+        // Assert
+        outcome.result.Should().BeTrue();
+        outcome.operation.Should().Be("+");
+        outcome.operationValue.Should().Be("[+] sum");
+        
+        consoleManagerMock.Verify(x=>x.WriteLine("Wrong operation, Calculator restart ..."), Times.Never);
+    }
+    
+    [Fact]
+    public void TryReadOperation_ShouldReturnDivisionEntry_WhenOperationIsDivision()
+    {
+        // Arrange
+        consoleManagerMock.Setup(x => x.ReadLine())
+            .Returns("/");
+
+        // Act
+        var outcome = sut.TryReadOperation();
+
+        // Assert
+        outcome.result.Should().BeTrue();
+        outcome.operation.Should().Be("/");
+        outcome.operationValue.Should().Be("[/] division");
+        
+        consoleManagerMock.Verify(x=>x.WriteLine("Wrong operation, Calculator restart ..."), Times.Never);
+    }
+    
+    [Fact]
+    public void TryReadOperation_ShouldReturnEscEntry_WhenOperationIsEsc()
+    {
+        // Arrange
+        consoleManagerMock.Setup(x => x.ReadLine())
+            .Returns("ESC");
+
+        // Act
+        var outcome = sut.TryReadOperation();
+
+        // Assert
+        outcome.result.Should().BeTrue();
+        outcome.operation.Should().Be("ESC");
+        outcome.operationValue.Should().Be("[ESC] exit");
+        
+        consoleManagerMock.Verify(x=>x.WriteLine("Wrong operation, Calculator restart ..."), Times.Never);
+    }
+    
+    
     
 }

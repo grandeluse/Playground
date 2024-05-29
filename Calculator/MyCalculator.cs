@@ -24,12 +24,10 @@ public class MyCalculator(IConsoleManager console) : ICalculator
             {
                 PrintPresentation();
 
-                operation = _console.ReadLine();
-                if (!_operations.TryGetValue(operation, out string operationValue))
-                {
-                    _console.WriteLine("Wrong operation, Calculator restart ...");
+                (operation, string? operationValue, bool operationCorrectlyRead) = TryReadOperation();
+                if (operationCorrectlyRead is not true)
                     continue;
-                }
+                
                 _console.WriteLine($"You choose: {operationValue}");
 
                 if (operation.Equals("ESC"))
@@ -74,6 +72,20 @@ public class MyCalculator(IConsoleManager console) : ICalculator
         } while (operation != _operations["ESC"]);
 
     }
+
+    internal (string? operation, string? operationValue, bool result) TryReadOperation()
+    {
+        var operation = _console.ReadLine();
+        
+        if (operation is null || !_operations.TryGetValue(operation, out string operationValue))
+        {
+            _console.WriteLine("Wrong operation, Calculator restart ...");
+            return (null, null, false);
+        }
+        
+        return (operation, operationValue, true);
+    }
+
     internal void PrintPresentation()
     {
         _console.WriteLine();
