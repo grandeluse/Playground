@@ -14,6 +14,7 @@ public class MyCalculator(IConsoleManager console) : ICalculator
         {"/","[/] division" },
         {"ESC", "[ESC] exit" }
         
+        
     };
 
     public void Start()
