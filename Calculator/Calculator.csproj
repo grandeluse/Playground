@@ -10,4 +10,7 @@
   <ItemGroup>
     <None Remove="Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Calculator.UnitTests" />
+  </ItemGroup>
 </Project>

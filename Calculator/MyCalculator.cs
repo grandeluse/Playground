@@ -1,4 +1,5 @@
 ﻿
+using System.Reflection.Metadata.Ecma335;
 using Calculator.Services;
 
 namespace Calculator;
@@ -73,7 +74,7 @@ public class MyCalculator(IConsoleManager console) : ICalculator
         } while (operation != _operations["ESC"]);
 
     }
-    private void PrintPresentation()
+    internal void PrintPresentation()
     {
         _console.WriteLine();
         _console.WriteLine("Welcome to Calculator");
