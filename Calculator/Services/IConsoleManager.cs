@@ -1,8 +1,6 @@
 namespace Calculator.Services;
 
-public interface IConsoleManager
+public interface IConsoleManager : IRead, IWrite
 {
-    void WriteLine();
-    void WriteLine(string value);
-    string? ReadLine();
+    
 }
