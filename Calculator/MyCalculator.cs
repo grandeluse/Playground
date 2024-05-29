@@ -17,25 +17,25 @@ public class MyCalculator(IConsoleManager console) : ICalculator
 
     public void Start()
     {
-        string operation = string.Empty;
+        var operation = string.Empty;
         do
         {
             try
             {
                 PrintPresentation();
 
-                (operation, string? operationValue, bool operationCorrectlyRead) = TryReadOperation();
+                (operation, var operationValue, var operationCorrectlyRead) = TryReadOperation();
                 if (operationCorrectlyRead is not true)
                     continue;
                 
                 _console.WriteLine($"You choose: {operationValue}");
 
-                if (operation.Equals("ESC"))
+                if (operation!.Equals("ESC"))
                     return;
 
                 _console.WriteLine();
                 _console.WriteLine("Type the first operator");
-                if (!int.TryParse(Console.ReadLine(), out int firstOperator))
+                if (!int.TryParse(_console.ReadLine(), out int firstOperator))
                 {
                     _console.WriteLine("Wrong operator, Calculator restart ...");
                     continue;
@@ -44,14 +44,14 @@ public class MyCalculator(IConsoleManager console) : ICalculator
 
                 _console.WriteLine();
                 _console.WriteLine("Type the second operator");
-                if (!int.TryParse(Console.ReadLine(), out int secondOperator))
+                if (!int.TryParse(_console.ReadLine(), out int secondOperator))
                 {
                     _console.WriteLine("Wrong operator, Calculator restart ...");
                     continue;
                 }
                 _console.WriteLine($"Second operator: {secondOperator}");
 
-                int result = operation switch
+                var result = operation switch
                 {
                     "+" => firstOperator + secondOperator,
                     "/" => firstOperator / secondOperator,
