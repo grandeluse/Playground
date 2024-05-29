@@ -62,7 +62,7 @@ public class MyCalculator(IConsoleManager console) : ICalculator
             }
             catch (DivideByZeroException e)
             {
-                _console.WriteLine($"The second operator must not be 0 ... {e.StackTrace}");
+                _console.WriteLine($"The second operator must not be 0 in division operation ...");
             }
             catch (Exception e)
             {

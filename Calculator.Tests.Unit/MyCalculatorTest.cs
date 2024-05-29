@@ -171,7 +171,7 @@ public class MyCalculatorTest
     }
     
     [Fact]
-    public void Start_ShouldPrintCorrectResult_WhenOprationIsSum()
+    public void Start_ShouldPrintCorrectResult_WhenOperationIsSum()
     {
         // Arrange
         consoleManagerMock.SetupSequence(x => x.ReadLine())
@@ -185,6 +185,23 @@ public class MyCalculatorTest
         
         // Assert
         consoleManagerMock.Verify(x=>x.WriteLine("The result of : 3 + 5 is 8"), Times.Once);
+    }
+    
+    [Fact]
+    public void Start_ShouldShowErrorMessage_WhenOperationIsDivisionAndSecondOperatorIsZero()
+    {
+        // Arrange
+        consoleManagerMock.SetupSequence(x => x.ReadLine())
+            .Returns("/")
+            .Returns("3")
+            .Returns("0")
+            .Returns("ESC");
+
+        // Act
+        sut.Start();
+        
+        // Assert
+        consoleManagerMock.Verify(x=>x.WriteLine("The second operator must not be 0 in division operation ..."), Times.Once);
     }
 
 
