@@ -136,7 +136,56 @@ public class MyCalculatorTest
         
         consoleManagerMock.Verify(x=>x.WriteLine("Wrong operation, Calculator restart ..."), Times.Never);
     }
+
+    [Fact]
+    public void Start_ShouldRestartCalculator_WhenFirstOperatorIsNotValid()
+    {
+        // Arrange
+        consoleManagerMock.SetupSequence(x => x.ReadLine())
+            .Returns("+")
+            .Returns("not valid operator")
+            .Returns("ESC");
+
+        // Act
+        sut.Start();
+        
+        // Assert
+        consoleManagerMock.Verify(x=>x.WriteLine("Wrong operator, Calculator restart ..."), Times.Once);
+    }
     
+    [Fact]
+    public void Start_ShouldRestartCalculator_WhenSecondOperatorIsNotValid()
+    {
+        // Arrange
+        consoleManagerMock.SetupSequence(x => x.ReadLine())
+            .Returns("+")
+            .Returns("3")
+            .Returns("not valid operator")
+            .Returns("ESC");
+
+        // Act
+        sut.Start();
+        
+        // Assert
+        consoleManagerMock.Verify(x=>x.WriteLine("Wrong operator, Calculator restart ..."), Times.Once);
+    }
     
-    
+    [Fact]
+    public void Start_ShouldPrintCorrectResult_WhenOprationIsSum()
+    {
+        // Arrange
+        consoleManagerMock.SetupSequence(x => x.ReadLine())
+            .Returns("+")
+            .Returns("3")
+            .Returns("5")
+            .Returns("ESC");
+
+        // Act
+        sut.Start();
+        
+        // Assert
+        consoleManagerMock.Verify(x=>x.WriteLine("The result of : 3 + 5 is 8"), Times.Once);
+    }
+
+
 }
