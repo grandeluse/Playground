@@ -46,4 +46,5 @@ public class MyCalculatorTest
         consoleManagerMock.Verify(x=>x.WriteLine("Insert the operation"),Times.Once);
         consoleManagerMock.Verify(x=>x.WriteLine($"Allowed operations are: {string.Join(", ", _operations.Values)}"),Times.Once);
     }
+    
 }
