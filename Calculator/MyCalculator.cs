@@ -13,6 +13,7 @@ public class MyCalculator(IConsoleManager console) : ICalculator
         {"+","[+] sum" },
         {"/","[/] division" },
         {"ESC", "[ESC] exit" }
+        
     };
 
     public void Start()
