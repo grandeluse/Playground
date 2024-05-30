@@ -1,4 +1,5 @@
 ﻿using Calculator.Services;
+using Calculator.Services.Operations;
 using Moq;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Calculator.Services.Operations;
 
 namespace Calculator.Services;
 

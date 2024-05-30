@@ -1,4 +1,5 @@
 using Calculator.Services;
+using Calculator.Services.Operations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Calculator.Infrastructure;

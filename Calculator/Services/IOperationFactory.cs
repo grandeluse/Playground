@@ -1,3 +1,5 @@
+using Calculator.Services.Operations;
+
 namespace Calculator.Services;
 
 public interface IOperationFactory

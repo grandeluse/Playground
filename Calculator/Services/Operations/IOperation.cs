@@ -1,4 +1,4 @@
-namespace Calculator.Services;
+namespace Calculator.Services.Operations;
 
 public interface IOperation
 {
