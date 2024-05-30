@@ -8,11 +8,13 @@ namespace Calculator;
 public class MyCalculator : ICalculator
 {
     private readonly IConsoleManager _console;
+    private readonly IOperationFactory _operationFactory;
     private readonly ILogger _logger;
 
-    public MyCalculator(IConsoleManager console, ILoggerFactory loggerFactory)
+    public MyCalculator(IConsoleManager console, IOperationFactory operationFactory, ILoggerFactory loggerFactory)
     {
         _console = console ?? throw new ArgumentNullException(nameof(console));
+        _operationFactory = operationFactory ?? throw new ArgumentNullException(nameof(operationFactory));
         ArgumentNullException.ThrowIfNull(loggerFactory, nameof(loggerFactory));
         _logger = loggerFactory.CreateLogger<MyCalculator>();
     }
@@ -68,12 +70,9 @@ public class MyCalculator : ICalculator
                 }
                 _console.WriteLine($"Second operator: {secondOperator}");
 
-                var result = operation switch
-                {
-                    "+" => firstOperator + secondOperator,
-                    "/" => firstOperator / secondOperator,
-                    _ => throw new InvalidOperationException("Operation not allowed")
-                };
+                var operationCalculator = _operationFactory.GetOperation(operation);
+                var result = operationCalculator.Calculate(firstOperator, secondOperator);
+                
                 _console.WriteLine();
                 _console.WriteLine($"The result of : {firstOperator} {operation} {secondOperator} is {result}");
             }
