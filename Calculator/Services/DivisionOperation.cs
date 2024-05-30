@@ -6,4 +6,6 @@ public class DivisionOperation : IOperation
     {
         return firstOperator / secondOperator;
     }
+    
+    public bool CanHandle(string symbol) => symbol == "/";
 }

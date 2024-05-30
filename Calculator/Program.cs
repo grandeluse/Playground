@@ -14,6 +14,8 @@ var serviceProvider = new ServiceCollection()
     .AddSingleton(loggerFactory)
     .AddSingleton<IConsoleManager, ConsoleManager>()
     .AddSingleton<ICalculator, MyCalculator>()
+    .AddTransient<IOperation, AdditionOperation>()
+    .AddTransient<IOperation, DivisionOperation>()
     .AddSingleton<IOperationFactory,OperationFactory>()
     .BuildServiceProvider();
 

@@ -2,16 +2,15 @@ using System.Diagnostics;
 
 namespace Calculator.Services;
 
-public class OperationFactory : IOperationFactory
+public class OperationFactory(IEnumerable<IOperation> operations) : IOperationFactory
 {
+    private readonly IEnumerable<IOperation> _operations = operations ?? throw new ArgumentNullException(nameof(operations));
+
     public IOperation GetOperation(string symbol)
     {
-        IOperation operation = symbol switch
-        {
-            "+" => new AdditionOperation(),
-            "/" => new DivisionOperation(),
-            _ => throw new NotSupportedException()
-        };
-        return operation;
+        var operationCalculator = _operations.FirstOrDefault(x => x.CanHandle(symbol));
+        if (operationCalculator is null)
+            throw new NotSupportedException();
+        return operationCalculator;
     }
 }

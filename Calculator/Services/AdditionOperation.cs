@@ -6,4 +6,6 @@ public class AdditionOperation : IOperation
     {
         return firstOperator + secondOperator;
     }
+
+    public bool CanHandle(string symbol) => symbol == "+";
 }
