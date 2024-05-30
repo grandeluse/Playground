@@ -7,8 +7,10 @@ namespace Calculator.UnitTests;
 
 public class MyCalculatorTest
 {
-    private MyCalculator sut;
-    private Mock<IConsoleManager> consoleManagerMock;
+    private readonly MyCalculator sut;
+    private readonly Mock<IConsoleManager> consoleManagerMock;
+    private readonly Mock<IOperationFactory> operationFactoryMock;
+    private readonly ILoggerFactory loggerFactory;
     
     private Dictionary<string, string> _operations = new()
     {
@@ -19,8 +21,9 @@ public class MyCalculatorTest
     public MyCalculatorTest()
     {
         consoleManagerMock = new Mock<IConsoleManager>();
-        using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-        sut = new MyCalculator(consoleManagerMock.Object, loggerFactory);
+        operationFactoryMock = new Mock<IOperationFactory>(MockBehavior.Strict);
+        loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+        sut = new MyCalculator(consoleManagerMock.Object, operationFactoryMock.Object, loggerFactory);
     }
     
     [Fact]
@@ -31,7 +34,29 @@ public class MyCalculatorTest
         // Act
 
         // Assert
-        Assert.Throws<ArgumentNullException>(()=> new MyCalculator(null,null));
+        Assert.Throws<ArgumentNullException>(()=> new MyCalculator(null, operationFactoryMock.Object, loggerFactory));
+    }
+    
+    [Fact]
+    public void Constructor_ShouldThrowException_WhenOperationFactoryIsNull()
+    {
+        // Arrange
+        
+        // Act
+
+        // Assert
+        Assert.Throws<ArgumentNullException>(()=> new MyCalculator(consoleManagerMock.Object, null, loggerFactory));
+    }
+    
+    [Fact]
+    public void Constructor_ShouldThrowException_WhenLoggerFactoryIsNull()
+    {
+        // Arrange
+        
+        // Act
+
+        // Assert
+        Assert.Throws<ArgumentNullException>(()=> new MyCalculator(consoleManagerMock.Object, operationFactoryMock.Object, null));
     }
     
     [Fact]
@@ -176,11 +201,16 @@ public class MyCalculatorTest
     public void Start_ShouldPrintCorrectResult_WhenOperationIsSum()
     {
         // Arrange
-        consoleManagerMock.SetupSequence(x => x.ReadLine())
+        consoleManagerMock
+            .SetupSequence(x => x.ReadLine())
             .Returns("+")
             .Returns("3")
             .Returns("5")
             .Returns("ESC");
+
+        operationFactoryMock
+            .Setup(x => x.GetOperation("+"))
+            .Returns(new AdditionOperation());
 
         // Act
         sut.Start();
@@ -198,6 +228,10 @@ public class MyCalculatorTest
             .Returns("3")
             .Returns("0")
             .Returns("ESC");
+        
+        operationFactoryMock
+            .Setup(x => x.GetOperation("/"))
+            .Returns(new DivisionOperation());
 
         // Act
         sut.Start();
