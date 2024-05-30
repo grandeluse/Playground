@@ -1,13 +1,22 @@
 ﻿
 using System.Reflection.Metadata.Ecma335;
 using Calculator.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Calculator;
 
-public class MyCalculator(IConsoleManager console) : ICalculator
+public class MyCalculator : ICalculator
 {
-    private readonly IConsoleManager _console = console ?? throw new ArgumentNullException(nameof(console));
+    private readonly IConsoleManager _console;
+    private readonly ILogger _logger;
 
+    public MyCalculator(IConsoleManager console, ILoggerFactory loggerFactory)
+    {
+        _console = console ?? throw new ArgumentNullException(nameof(console));
+        ArgumentNullException.ThrowIfNull(loggerFactory, nameof(loggerFactory));
+        _logger = loggerFactory.CreateLogger<MyCalculator>();
+    }
+    
     private readonly Dictionary<string, string> _operations= new()
     {
         {"+","[+] sum" },
@@ -21,6 +30,7 @@ public class MyCalculator(IConsoleManager console) : ICalculator
 
     public void Start()
     {
+        _logger.LogDebug("Calculator started ...");
         var operation = string.Empty;
         do
         {
@@ -35,7 +45,10 @@ public class MyCalculator(IConsoleManager console) : ICalculator
                 _console.WriteLine($"You choose: {operationValue}");
 
                 if (operation!.Equals("ESC"))
+                {
+                    _logger.LogDebug("Calculator finished, thank you!");
                     return;
+                }
 
                 _console.WriteLine();
                 _console.WriteLine("Type the first operator");

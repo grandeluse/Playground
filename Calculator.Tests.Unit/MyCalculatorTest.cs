@@ -1,6 +1,7 @@
 ﻿using Calculator.Services;
 using Moq;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 
 namespace Calculator.UnitTests;
 
@@ -8,7 +9,7 @@ public class MyCalculatorTest
 {
     private MyCalculator sut;
     private Mock<IConsoleManager> consoleManagerMock;
-
+    
     private Dictionary<string, string> _operations = new()
     {
         { "+", "[+] sum" },
@@ -18,7 +19,8 @@ public class MyCalculatorTest
     public MyCalculatorTest()
     {
         consoleManagerMock = new Mock<IConsoleManager>();
-        sut = new MyCalculator(consoleManagerMock.Object);
+        using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+        sut = new MyCalculator(consoleManagerMock.Object, loggerFactory);
     }
     
     [Fact]
@@ -29,7 +31,7 @@ public class MyCalculatorTest
         // Act
 
         // Assert
-        Assert.Throws<ArgumentNullException>(()=> new MyCalculator(null));
+        Assert.Throws<ArgumentNullException>(()=> new MyCalculator(null,null));
     }
     
     [Fact]
