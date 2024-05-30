@@ -14,6 +14,10 @@ public class MyCalculator(IConsoleManager console) : ICalculator
         {"/","[/] division" },
         {"ESC", "[ESC] exit" }
     };
+    //TODO 1. Interfaccia IOperator con metodo calculate() che realizza l'operazione specifica in modo che sia abbia Open Closure Principle
+    //TODO 2. IoC Container per ConsoleApplication
+    //TODO 3. Relativi tests 
+    //TODO 4. Poi non fare altro qui ma cominciare il corso sulle API
 
     public void Start()
     {
@@ -70,7 +74,6 @@ public class MyCalculator(IConsoleManager console) : ICalculator
                 throw;
             }
         } while (operation != _operations["ESC"]);
-
     }
 
     internal (string? operation, string? operationValue, bool result) TryReadOperation()

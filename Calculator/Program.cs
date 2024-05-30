@@ -1,7 +1,11 @@
 ﻿using Calculator;
 using Calculator.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-var console = new ConsoleManager();
-var calculator = new MyCalculator(console);
+var serviceProvider = new ServiceCollection()
+    .AddSingleton<IConsoleManager, ConsoleManager>()
+    .AddSingleton<ICalculator, MyCalculator>()
+    .BuildServiceProvider();
 
+var calculator = serviceProvider.GetService<ICalculator>();
 calculator.Start();
