@@ -6,7 +6,7 @@ namespace Calculator.Infrastructure;
 
 public static class RegisterOperations
 {
-    public static IServiceCollection AddOperations(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddOperations(this IServiceCollection services)
     {
         var operations = typeof(IOperation).Assembly
             .GetTypes()
@@ -14,8 +14,8 @@ public static class RegisterOperations
                 .Contains(typeof(IOperation)))
             .ToList();
         
-        operations.ForEach(operation=> serviceCollection.AddTransient(typeof(IOperation),operation));
+        operations.ForEach(operation=> services.AddTransient(typeof(IOperation),operation));
 
-        return serviceCollection;
+        return services;
     }
 }

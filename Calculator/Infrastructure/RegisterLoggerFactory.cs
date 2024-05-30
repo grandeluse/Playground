@@ -5,7 +5,7 @@ namespace Calculator.Infrastructure;
 
 public static class RegisterLoggerFactory
 {
-    public static IServiceCollection AddLoggerFactory(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddLoggerFactory(this IServiceCollection services)
     {
         var loggerFactory = LoggerFactory.Create(
             builder => builder
@@ -13,8 +13,8 @@ public static class RegisterLoggerFactory
                 .AddDebug()
                 .SetMinimumLevel(LogLevel.Debug));
         
-        serviceCollection.AddSingleton(loggerFactory);
+        services.AddSingleton(loggerFactory);
         
-        return serviceCollection;
+        return services;
     }
 }
