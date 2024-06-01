@@ -406,4 +406,4 @@ ASALocalRun/
 
 .git/
 
-**/mongodbdata/**
+/Catalog/mongodbdata
