@@ -13,28 +13,28 @@ public class InMemItemsRepository : IItemsRepository
         new Item() { Id = Guid.NewGuid(), Name = "Bronze Shield", Price = 18 ,CreatedDate = DateTimeOffset.UtcNow},
     };
 
-    public IEnumerable<Item> GetItems()
+    public IEnumerable<Item> GetItemsAsync()
     {
         return _items;
     }
 
-    public Item GetItem(Guid id)
+    public Item GetItemAsync(Guid id)
     {
         return _items.SingleOrDefault(item => item.Id == id);
     }
 
-    public void CreateItem(Item item)
+    public void CreateItemAsync(Item item)
     {
         _items.Add(item);
     }
 
-    public void UpdateItem(Item item)
+    public void UpdateItemAsync(Item item)
     {
         var index = _items.FindIndex(existingItem => existingItem.Id == item.Id);
         _items[index] = item;
     }
 
-    public void DeleteItem(Guid id)
+    public void DeleteItemAsync(Guid id)
     {
         var index = _items.FindIndex(existingItem => existingItem.Id == id);
         _items.RemoveAt(index);
