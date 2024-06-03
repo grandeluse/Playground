@@ -17,31 +17,31 @@ public class MongoDbItemsRepository : IItemsRepository
         _itemsCollection = database.GetCollection<Item>(CollectionName);
     }
 
-    public void CreateItemAsync(Item item)
+    public async Task CreateItemAsync(Item item)
     {
-        _itemsCollection.InsertOne(item);
+        await _itemsCollection.InsertOneAsync(item);
     }
     
-    public Item GetItemAsync(Guid id)
+    public async Task DeleteItemAsync(Guid id)
     {
         var filter = _filterBuilder.Eq(item => item.Id, id);
-        return _itemsCollection.Find(filter).SingleOrDefault();
+        await _itemsCollection.DeleteOneAsync(filter);
     }
-
-    public IEnumerable<Item> GetItemsAsync()
+    
+    public async Task<Item> GetItemAsync(Guid id)
     {
-        return _itemsCollection.Find(new BsonDocument()).ToList();
+        var filter = _filterBuilder.Eq(item => item.Id, id);
+        return await _itemsCollection.Find(filter).SingleOrDefaultAsync();
+    }
+    
+    public async Task<IEnumerable<Item>> GetItemsAsync()
+    {
+        return await _itemsCollection.Find(new BsonDocument()).ToListAsync();
     }
 
-    public void UpdateItemAsync(Item item)
+    public async Task UpdateItemAsync(Item item)
     {
         var filter = _filterBuilder.Eq(existingItem => existingItem.Id, item.Id);
-        _itemsCollection.ReplaceOne(filter, item);
-    }
-
-    public void DeleteItemAsync(Guid id)
-    {
-        var filter = _filterBuilder.Eq(item => item.Id, id);
-        _itemsCollection.DeleteOne(filter);
+        await _itemsCollection.ReplaceOneAsync(filter, item);
     }
 }
