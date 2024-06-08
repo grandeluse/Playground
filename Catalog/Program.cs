@@ -34,7 +34,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddHealthChecks()
     .AddMongoDb(
         mongoDbSettings.ConnectionString, 
-        name: "mongo", 
+        name: "mongodb", 
         timeout: TimeSpan.FromSeconds(3),
         tags: new[]{"ready"});
 
