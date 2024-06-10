@@ -2,6 +2,7 @@ using System.Net.Mime;
 using System.Text.Json;
 using Asp.Versioning;
 using Catalog;
+using Catalog.OpenApi;
 using Catalog.Repositories;
 using Catalog.Settings;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
