@@ -1,12 +1,14 @@
+using Asp.Versioning;
 using Catalog.Dtos;
 using Catalog.Entities;
 using Catalog.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.Controllers;
+namespace Catalog.Controllers.v1;
 
+[ApiVersion("1.0")]
 [ApiController]
-[Route("api/v1/items")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class ItemsController : ControllerBase
 {
     private readonly IItemsRepository _repository;
