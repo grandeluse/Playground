@@ -21,7 +21,7 @@ public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) : 
     {
         var info = new OpenApiInfo
         {
-            Title = "API Title",
+            Title = $"Catalog API v{description.ApiVersion}",
             Version = description.ApiVersion.ToString(),
             Description = "API Description."
         };
