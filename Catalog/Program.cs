@@ -45,31 +45,6 @@ builder.Services.AddHealthChecks()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-
-builder.Services.AddApiVersioning(options =>
-{
-    // Report the supported API version in the response headers
-    options.ReportApiVersions = true;
-
-    // Assume a default version when none is specified by the client
-    options.AssumeDefaultVersionWhenUnspecified = true;
-
-    // Set the default API version to 1.0
-    options.DefaultApiVersion = new ApiVersion(1, 0);
-}).AddApiExplorer(options =>
-{
-    options.GroupNameFormat = "'v'VVV";
-    options.SubstituteApiVersionInUrl = true;
-});
-
-builder.Services.AddSwaggerGen(c => {
-    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-    c.IgnoreObsoleteActions();
-    c.IgnoreObsoleteProperties();
-    c.CustomSchemaIds(type => type.FullName);
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -77,15 +52,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(
-        options =>
-        {
-            var descriptions = app.DescribeApiVersions();
-            foreach (var description in descriptions)
-            {
-                options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-            }
-        });
+    app.UseSwaggerUI();
 }
 
 if (app.Environment.IsDevelopment())

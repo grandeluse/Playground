@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Controllers.v1;
 
-[ApiVersion("1.0")]
 [ApiController]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/v1/[controller]")]
 public class ItemsController : ControllerBase
 {
     private readonly IItemsRepository _repository;
