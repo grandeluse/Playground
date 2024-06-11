@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Controllers.v2;
 
-[ApiVersion("2.0")]
+
 [ApiController]
-[Route("api/v{version:apiVersion}/[controller]/")]
-public class ItemsController : ControllerBase
+[ApiVersion("2.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
+public class ItemsController //: ControllerBase
 {
     private readonly IItemsRepository _repository;
 
@@ -21,8 +22,15 @@ public class ItemsController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<ItemDto>> GetItemsAsync()
     {
-        var items = (await _repository.GetItemsAsync())
-            .Select(item => item.AsDto());
+        //var items = (await _repository.GetItemsAsync())
+        //   .Select(item => item.AsDto());
+            var items = new List<ItemDto>()
+            {
+                new()
+                {
+                    Id = Guid.NewGuid(), Name = "Grandeluse Potion V2", Price = 1000, CreatedDate = DateTimeOffset.UtcNow
+                }
+            };
         return items;
     }
 }

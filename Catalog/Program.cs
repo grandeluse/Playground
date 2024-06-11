@@ -1,7 +1,8 @@
 using System.Net.Mime;
 using System.Text.Json;
 using Asp.Versioning;
-using Catalog;
+using Asp.Versioning.ApiExplorer;
+using Asp.Versioning.Builder;
 using Catalog.OpenApi;
 using Catalog.Repositories;
 using Catalog.Settings;
@@ -44,20 +45,43 @@ builder.Services.AddHealthChecks()
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+builder.Services.AddSwaggerGen(options=>options.OperationFilter<SwaggerDefaultValues>());
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+})
+.AddMvc()
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    //app.UseHttpsRedirection();
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
+    app.UseSwaggerUI(
+        options =>
+        {
+            var descriptions = app.DescribeApiVersions();
+       
+            // build a swagger endpoint for each discovered API version
+            foreach ( var description in descriptions )
+            {
+                var url = $"/swagger/{description.GroupName}/swagger.json";
+                var name = description.GroupName.ToUpperInvariant();
+                options.SwaggerEndpoint( url, name );
+            }
+        } );
 }
 
 app.UseAuthorization();
