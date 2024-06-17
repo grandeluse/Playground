@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.UnitTests", "Calculator.Tests.Unit\Calculator.UnitTests.csproj", "{23816791-DB4A-4B79-BF4C-4D817CD8ED37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog", "Catalog\Catalog.csproj", "{E134B3C4-2DEE-4AF9-BE6C-4F41B8C67365}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "Catalog.Api\Catalog.Api.csproj", "{E134B3C4-2DEE-4AF9-BE6C-4F41B8C67365}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomHack", "RandomHack\RandomHack.csproj", "{58BC55F0-0EBF-481A-B708-364812C20243}"
 EndProject

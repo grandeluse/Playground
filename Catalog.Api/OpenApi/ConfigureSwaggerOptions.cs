@@ -5,7 +5,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Catalog.OpenApi;
+namespace Catalog.Api.OpenApi;
 
 /// <summary>
 /// Configures the Swagger generation options.

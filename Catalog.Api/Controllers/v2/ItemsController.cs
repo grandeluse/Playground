@@ -1,9 +1,9 @@
 using Asp.Versioning;
-using Catalog.Dtos;
-using Catalog.Repositories;
+using Catalog.Api.Dtos;
+using Catalog.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.Controllers.v2;
+namespace Catalog.Api.Controllers.v2;
 
 
 [ApiController]

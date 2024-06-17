@@ -1,8 +1,8 @@
-using Catalog.Entities;
+using Catalog.Api.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.Repositories;
+namespace Catalog.Api.Repositories;
 
 public class InMemItemsRepository : IItemsRepository
 {
