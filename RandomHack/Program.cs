@@ -39,4 +39,24 @@ var mamyOrder = OrderBuilder.Empty()
     .Build();
 
 Console.WriteLine(mamyOrder.ToString());
+
+List<Order[]> orders = Enumerable
+    .Range(1, 10)
+    .Select(number =>
+        OrderBuilder.Empty()
+            .WithNumber(number)
+            .CreatedOn(DateTime.UtcNow)
+            .ShippedTo(address => address
+                    .Street("street")
+                    .Zip("zip")
+                    .City("city")
+                    .State("state")
+                    .Country("country"))
+            .Build())
+    .Chunk(2)
+    .ToList();
+
+Console.WriteLine(orders);        
+
+
     
