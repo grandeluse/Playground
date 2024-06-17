@@ -27,16 +27,16 @@ var order = OrderBuilder.Empty()
 
 Console.WriteLine(order);
 
-var antonio = OrderBuilder.Empty()
+var mamyOrder = OrderBuilder.Empty()
     .WithNumber(975)
     .CreatedOn(DateTime.UtcNow.AddDays(-1).AddHours(-2).AddMinutes(-34))
     .ShippedTo(s => s
-        .Street("Via blkjhggh dfffgvcg")
+        .Street("Via Morty 2")
         .City("Paese della Fantasia")
         .Zip("235")
-        .State("Toscana")
-        .Country("Italy"))
+        .State("Luzer")
+        .Country("Switzerland"))
     .Build();
 
-Console.WriteLine(antonio.ToString());
+Console.WriteLine(mamyOrder.ToString());
     
