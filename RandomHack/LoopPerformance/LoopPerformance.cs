@@ -1,7 +1,6 @@
 using BenchmarkDotNet.Attributes;
-using Microsoft.Diagnostics.Tracing.Parsers.MicrosoftWindowsTCPIP;
 
-namespace RandomHack;
+namespace RandomHack.LoopPerformance;
 
 [MemoryDiagnoser(false)]
 public class LoopPerformance
