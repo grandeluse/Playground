@@ -12,10 +12,12 @@ namespace Catalog.Api.Controllers.v1;
 public class ItemsController : ControllerBase
 {
     private readonly IItemsRepository _repository;
+    private readonly ILogger<ItemsController> _logger;
 
-    public ItemsController(IItemsRepository repository)
+    public ItemsController(IItemsRepository repository, ILogger<ItemsController> logger)
     {
-        _repository = repository;
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     // GET /items
@@ -24,6 +26,7 @@ public class ItemsController : ControllerBase
     {
         var items = (await _repository.GetItemsAsync())
             .Select(item=> item.AsDto());
+        _logger.LogInformation($"Total items: {items.Count()}");
         return items;
     }
 
