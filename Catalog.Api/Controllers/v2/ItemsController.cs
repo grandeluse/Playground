@@ -26,10 +26,7 @@ public class ItemsController //: ControllerBase
         //   .Select(item => item.AsDto());
             var items = new List<ItemDto>()
             {
-                new()
-                {
-                    Id = Guid.NewGuid(), Name = "Grandeluse Potion V2", Price = 1000, CreatedDate = DateTimeOffset.UtcNow
-                }
+                new(Guid.NewGuid(), "Grandeluse Potion V2", Guid.NewGuid().ToString(), 1000, DateTimeOffset.UtcNow)
             };
         return items;
     }

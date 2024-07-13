@@ -51,6 +51,7 @@ public class ItemsController : ControllerBase
         {
             Id = Guid.NewGuid(),
             Name = itemDto.Name,
+            Description = itemDto.Description,
             Price = itemDto.Price,
             CreatedDate = DateTimeOffset.UtcNow
         };
@@ -70,13 +71,10 @@ public class ItemsController : ControllerBase
             return NotFound();
         }
 
-        Item updatedItem = existingItem with
-        {
-            Name = itemDto.Name,
-            Price = itemDto.Price
-        };
-        
-        await _repository.UpdateItemAsync(updatedItem);
+        existingItem.Name = itemDto.Name;
+        existingItem.Price = itemDto.Price;
+
+        await _repository.UpdateItemAsync(existingItem);
 
         return NoContent();
     }
