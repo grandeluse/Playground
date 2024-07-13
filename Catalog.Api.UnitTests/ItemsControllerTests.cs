@@ -3,6 +3,7 @@ using Catalog.Api.Dtos;
 using Catalog.Api.Entities;
 using Catalog.Api.Repositories;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -100,6 +101,47 @@ public class ItemsControllerTests
         createItem.Id.Should().NotBeEmpty();
         createItem.CreatedDate.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(1));
 
+    }
+    
+    [Fact]
+    public async Task UpdateItemAsync_WithExistingItem_ReturnsNoContent()
+    {
+        // Arrange
+        var existingItem = CreateRandomItem();
+        repositoryStub.Setup(repo => repo.GetItemAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(existingItem);
+
+        var itemId = existingItem.Id;
+        var itemToUpdate = new UpdateItemDto()
+        {
+            Name = Guid.NewGuid().ToString(),
+            Price = existingItem.Price + 3
+        };
+        
+        var controller = new ItemsController(repositoryStub.Object, loggerStub.Object);
+        
+        // Act
+        var result = await controller.UpdateItemAsync(itemId, itemToUpdate);
+        
+        // Assert
+        result.Should().BeOfType<NoContentResult>();
+    }
+    
+    [Fact]
+    public async Task DeleteItemAsync_WithExistingItem_ReturnsNoContent()
+    {
+        // Arrange
+        var existingItem = CreateRandomItem();
+        repositoryStub.Setup(repo => repo.GetItemAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(existingItem);
+
+        var controller = new ItemsController(repositoryStub.Object, loggerStub.Object);
+        
+        // Act
+        var result = await controller.DeleteItemAsync(existingItem.Id);
+        
+        // Assert
+        result.Should().BeOfType<NoContentResult>();
     }
 
     private Item CreateRandomItem()
