@@ -22,10 +22,16 @@ public class ItemsController : ControllerBase
 
     // GET /items
     [HttpGet]
-    public async Task<IEnumerable<ItemDto>> GetItemsAsync()
+    public async Task<IEnumerable<ItemDto>> GetItemsAsync(string name = null)
     {
         var items = (await _repository.GetItemsAsync())
             .Select(item=> item.AsDto());
+
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            items = items.Where(item => item.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+        }
+        
         _logger.LogInformation($"Total items: {items.Count()}");
         return items;
     }
