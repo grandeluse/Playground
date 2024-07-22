@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupplyStacks.UnitTest", "Su
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api.UnitTests", "Catalog.Api.UnitTests\Catalog.Api.UnitTests.csproj", "{96E72568-69E9-4D89-870E-D9B56D25D1A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpDeepDive", "CSharpDeepDive\CSharpDeepDive.csproj", "{02A2F384-0DAA-401F-A75F-2557D913A848}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{96E72568-69E9-4D89-870E-D9B56D25D1A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96E72568-69E9-4D89-870E-D9B56D25D1A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96E72568-69E9-4D89-870E-D9B56D25D1A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A2F384-0DAA-401F-A75F-2557D913A848}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A2F384-0DAA-401F-A75F-2557D913A848}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A2F384-0DAA-401F-A75F-2557D913A848}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A2F384-0DAA-401F-A75F-2557D913A848}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
