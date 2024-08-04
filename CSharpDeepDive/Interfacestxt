@@ -1,0 +1,54 @@
+using CSharpDeepDive.OOP.Interfaces;
+
+Motorcycle motorcycle = new();
+motorcycle.StartEngine();
+Console.WriteLine(motorcycle.IsEngineRunning);
+
+motorcycle.StopEngine();
+Console.WriteLine(motorcycle.IsEngineRunning);
+
+motorcycle.StopEngine();
+Console.WriteLine(motorcycle.IsEngineRunning);
+
+IMotorized motorized = motorcycle;
+motorized.StartEngine();
+Console.WriteLine(motorized.IsEngineRunning);
+
+Motorcycle motorcycle2 = (Motorcycle)motorized;
+Console.WriteLine(motorcycle2.IsEngineRunning);
+motorcycle2.StopEngine();
+Console.WriteLine(motorcycle2.IsEngineRunning);
+
+Console.WriteLine("Combined use of IHasDoor and IMotorized");
+Car coupe = new(2);
+Car sedan = new(4);
+
+coupe.StartEngine();
+sedan.StartEngine();
+
+coupe.OpenDoor(1);
+sedan.OpenDoor(3);
+
+TestIgnition(coupe);
+TestIgnition(sedan);
+
+TestDoors(coupe);
+TestDoors(sedan);
+
+void TestIgnition(IMotorized motorized)
+{
+    motorized.StartEngine();
+    Console.WriteLine($"Engine is running: {motorized.IsEngineRunning}");
+    
+    motorized.StopEngine();
+    Console.WriteLine($"Engine is running: {motorized.IsEngineRunning}");
+}
+
+void TestDoors(IHasDoor hasDoors)
+{
+    for (int i = 0; i < hasDoors.NumberOfDoors; i++)
+    {
+        hasDoors.OpenDoor(i);
+        Console.WriteLine($"Door {i} is open: {hasDoors.IsDoorOpen(i)}");
+    }
+}
