@@ -1,54 +1,55 @@
-﻿List<string> ourList = new()
-{
-    "Hello",
-    "World"
-};
+﻿
+var monday = (int)DaysOfWeek.Monday;
+Console.WriteLine($"Enum value Directly: {DaysOfWeek.Monday}");
+Console.WriteLine($"Enum value Casted: {(int)DaysOfWeek.Monday}");
 
-void DoSomethingWithReference(List<string> list)
+string mondayString = DaysOfWeek.Monday.ToString();
+
+DaysOfWeek mondayEnum = (DaysOfWeek)Enum.Parse(typeof(DaysOfWeek), "Monday");
+DaysOfWeek mondayEnum2 = Enum.Parse<DaysOfWeek>("Monday");
+
+DaysOfWeek mondayEnum3;
+bool parseSucceeded = Enum.TryParse("Monday", out mondayEnum3);
+Console.WriteLine($"Enum {(parseSucceeded ? "Was parsed" : "Was not parsed")}: {mondayEnum3}");
+
+Console.WriteLine();
+
+DaysOfWeek2 fridayEnum2;
+bool parseSucceeded2 = Enum.TryParse("friday", out fridayEnum2);
+Console.WriteLine($"Enum2 {(parseSucceeded2 ? "Was parsed" : "Was not parsed")}: {fridayEnum2}");
+
+Console.WriteLine("All Enum values:");
+foreach (DaysOfWeek day in Enum.GetValues(typeof(DaysOfWeek)))
 {
-    list.Add("From");
-    list.Add("Nick");
+    Console.WriteLine($"Enum Value: {day}");
 }
 
-Console.WriteLine("Reference Before:");
-foreach (var item in ourList)
+Console.WriteLine("All Enum Names");
+foreach (string day in Enum.GetNames(typeof(DaysOfWeek)))
 {
-    Console.WriteLine(item);
+    Console.WriteLine($"Enum Name: {day}");
 }
 
-DoSomethingWithReference(ourList);
-
-Console.WriteLine("Reference After:");
-foreach (var item in ourList)
+enum DaysOfWeek
 {
-    Console.WriteLine(item);
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday
 }
 
-string ourString = "Hello World!";
-
-void DoSomethingWithValue(string value)
+enum DaysOfWeek2
 {
-    value = "Goodbye World!";
+    Monday = 1,
+    Tuesday = 2,
+    Wednesday = 3,
+    Thursday = 4,
+    Friday = 5,
+    Saturday = 6,
+    Sunday = 7
 }
 
-Console.Write("Value Before: ");
-Console.WriteLine(ourString);
-
-DoSomethingWithValue(ourString);
-
-Console.Write("Value After: ");
-Console.WriteLine(ourString);
-
-void DoSomethingWithValueByRef(ref string value)
-{
-    value = "Goodbye World!";
-}
-
-Console.Write("Value Before By Ref: ");
-Console.WriteLine(ourString);
-
-DoSomethingWithValueByRef(ref ourString);
-
-Console.Write("Value After By Ref: ");
-Console.WriteLine(ourString);
 
