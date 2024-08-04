@@ -1,4 +1,4 @@
-﻿
+
 
 MyDerivedClass2 myDerivedClass = new();
 myDerivedClass.Print();
